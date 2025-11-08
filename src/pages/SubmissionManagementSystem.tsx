@@ -385,6 +385,15 @@ const SubmissionManagementSystem = () => {
     return icons[type] || FileText;
   };
 
+  const [expandedGroups, setExpandedGroups] = useState({});
+
+  const toggleGroup = (groupName) => {
+    setExpandedGroups((prev) => ({
+      ...prev,
+      [groupName]: !prev[groupName],
+    }));
+  };
+
   return (
     <>
       <Header />
@@ -527,116 +536,162 @@ const SubmissionManagementSystem = () => {
           {/* Grouped Submissions */}
           <div className="space-y-6">
             {Object.entries(groupedSubmissions).map(
-              ([groupName, groupSubmissions]) => (
-                <div
-                  key={groupName}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden"
-                >
-                  <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900 capitalize">
-                      {groupName} ({groupSubmissions.length})
-                    </h2>
-                  </div>
+              ([groupName, groupSubmissions]) => {
+                // Agar expanded nahi hai to sirf 10 dikhaye
+                const visibleSubmissions = expandedGroups[groupName]
+                  ? groupSubmissions
+                  : groupSubmissions.slice(0, 10);
 
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-gray-50 border-b border-gray-200">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Candidate
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Position
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Client
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Recruiter
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Resume
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Notice Period
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Current CTC
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            CTC Budget
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            History
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {groupSubmissions.map((submission) => (
-                          <tr
-                            key={submission.id}
-                            className="hover:bg-gray-50 cursor-pointer"
-                            onClick={() => setSelectedCandidate(submission)}
+                return (
+                  <div
+                    key={groupName}
+                    className="bg-white rounded-lg shadow-sm overflow-hidden border"
+                  >
+                    {/* ---- Stylish Header Section ---- */}
+                    <div className="flex items-center justify-between bg-gradient-to-r from-indigo-50 to-blue-50 px-6 py-4 border-b border-gray-200">
+                      {/* Left: Icon + Title */}
+                      <div className="flex items-center gap-3">
+                        <div className="bg-blue-100 text-blue-600 p-2 rounded-xl">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
                           >
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm font-medium text-gray-900">
-                                {submission.candidateName}
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                {submission.location}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {submission.positionName}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {submission.clientName}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span
-                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                                  submission.candidateStatus
-                                )}`}
-                              >
-                                {submission.candidateStatus}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {submission.recruiter}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">
-                                <FileText size={14} />
-                                View Resume
-                              </button>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {submission.noticePeriod}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {submission.currentCTC}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                              {submission.ctcBudget}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              Submitted: {submission.submissionDate}
-                              {submission.interviewDateTime && (
-                                <div>
-                                  Interview: {submission.interviewDateTime}
-                                </div>
-                              )}
-                            </td>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5M4.5 5.25a.75.75 0 01.75-.75h13.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H5.25a.75.75 0 01-.75-.75V5.25z"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <h2 className="text-lg font-semibold text-gray-900 capitalize">
+                            {groupName} ({groupSubmissions.length}) —{" "}
+                            <span className="text-blue-600">
+                              {groupSubmissions[0]?.clientName || "N/A"}
+                            </span>
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* ---- Table ---- */}
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-gray-50 border-b border-gray-200 sticky top-0">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Candidate
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Position
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Client
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Status
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Recruiter
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Resume
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Notice Period
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Current CTC
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              CTC Budget
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              History
+                            </th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {visibleSubmissions.map((submission) => (
+                            <tr
+                              key={submission.id}
+                              className="hover:bg-gray-50 cursor-pointer transition-colors"
+                              onClick={() => setSelectedCandidate(submission)}
+                            >
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm font-medium text-gray-900">
+                                  {submission.candidateName}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  {submission.location}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {submission.positionName}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {submission.clientName}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span
+                                  className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
+                                    submission.candidateStatus
+                                  )}`}
+                                >
+                                  {submission.candidateStatus}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {submission.recruiter}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">
+                                  View Resume
+                                </button>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {submission.noticePeriod}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {submission.currentCTC}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {submission.ctcBudget}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Submitted: {submission.submissionDate}
+                                {submission.interviewDateTime && (
+                                  <div>
+                                    Interview: {submission.interviewDateTime}
+                                  </div>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* ---- View More Button ---- */}
+                    {groupSubmissions.length > 10 && (
+                      <div className="flex justify-center py-3 bg-gray-50 border-t">
+                        <button
+                          onClick={() => toggleGroup(groupName)}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                          {expandedGroups[groupName]
+                            ? "View Less"
+                            : "View More"}
+                        </button>
+                      </div>
+                    )}
                   </div>
-                </div>
-              )
+                );
+              }
             )}
           </div>
 

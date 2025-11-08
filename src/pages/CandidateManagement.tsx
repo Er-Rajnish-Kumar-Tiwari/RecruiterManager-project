@@ -131,6 +131,33 @@ const CandidateManagement = () => {
   ]);
 
   const [filteredCandidates, setFilteredCandidates] = useState(candidates);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const candidatesPerPage = 100;
+  const totalPages = Math.ceil(candidates.length / candidatesPerPage);
+  const startIndex = (currentPage - 1) * candidatesPerPage;
+  const currentCandidates = candidates.slice(
+    startIndex,
+    startIndex + candidatesPerPage
+  );
+
+  const handleFilterChanges = (field, value) => {
+    setFilteredCandidates((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleRangeChange = (field, type, value) => {
+    setFilteredCandidates((prev) => ({
+      ...prev,
+      [field]: {
+        ...prev[field],
+        [type]: value,
+      },
+    }));
+  };
+
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingCandidate, setEditingCandidate] = useState(null);
   const [searchEmail, setSearchEmail] = useState("");
@@ -1361,7 +1388,7 @@ const CandidateManagement = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredCandidates.map((candidate) => (
+                  {currentCandidates.map((candidate) => (
                     <tr
                       key={candidate?.id}
                       className="hover:bg-gray-50 transition-colors"
@@ -1528,6 +1555,38 @@ const CandidateManagement = () => {
                   ))}
                 </tbody>
               </table>
+
+              {/* Pagination */}
+              <div className="px-6 py-3 border-t flex items-center justify-between">
+                <div className="text-sm text-gray-500">
+                  Showing {startIndex + 1} to{" "}
+                  {Math.min(startIndex + candidatesPerPage, candidates.length)}{" "}
+                  of {candidates.length} candidates
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                    className="px-3 py-1 border rounded text-sm disabled:bg-gray-100 hover:bg-gray-50"
+                  >
+                    Previous
+                  </button>
+                  <span className="px-3 py-1 text-sm bg-blue-50 border rounded">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1 border rounded text-sm disabled:bg-gray-100 hover:bg-gray-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
 
               {filteredCandidates.length === 0 && (
                 <div className="text-center py-12 text-gray-500">

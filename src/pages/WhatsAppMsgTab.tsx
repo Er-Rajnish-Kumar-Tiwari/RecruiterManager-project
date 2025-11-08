@@ -307,6 +307,15 @@ const WhatsAppMsgTab = () => {
     return colors[template] || "bg-gray-100 text-gray-800";
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const candidatesPerPage = 20;
+  const totalPages = Math.ceil(conversations.length / candidatesPerPage);
+  const startIndex = (currentPage - 1) * candidatesPerPage;
+  const currentCandidates = conversations.slice(
+    startIndex,
+    startIndex + candidatesPerPage
+  );
+
   return (
     <>
       <Header />
@@ -444,7 +453,7 @@ const WhatsAppMsgTab = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredConversations.map((conversation) => (
+                  {currentCandidates.map((conversation) => (
                     <tr
                       key={conversation.id}
                       className="hover:bg-gray-50"
@@ -537,6 +546,40 @@ const WhatsAppMsgTab = () => {
                   ))}
                 </tbody>
               </table>
+
+              <div className="px-6 py-3 border-t flex items-center justify-between">
+                <div className="text-sm text-gray-500">
+                  Showing {startIndex + 1} to{" "}
+                  {Math.min(
+                    startIndex + candidatesPerPage,
+                    conversations.length
+                  )}{" "}
+                  of {conversations.length} candidates
+                </div>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                    className="px-3 py-1 border rounded text-sm disabled:bg-gray-100 hover:bg-gray-50"
+                  >
+                    Previous
+                  </button>
+                  <span className="px-3 py-1 text-sm bg-blue-50 border rounded">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1 border rounded text-sm disabled:bg-gray-100 hover:bg-gray-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
