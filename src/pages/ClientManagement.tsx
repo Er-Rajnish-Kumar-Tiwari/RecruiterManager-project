@@ -163,6 +163,81 @@ const ClientManagement = () => {
       managementHighlights:
         "CFO: Meera Reddy (ex-Goldman Sachs), strong financial expertise",
     },
+    {
+      id: 2,
+      name: "Global Finance Inc",
+      industry: "Finance",
+      hrName: "Sneha Patel",
+      hrEmail: "sneha.patel@globalfinance.com",
+      hrPhone: "+91-9876543211",
+      lakshSpoc: "Rahul Gupta",
+      recruiter: "Neha Agarwal",
+      recruiters: ["Neha Agarwal", "Rohit Sharma"],
+      activePositions: 2,
+      status: "Active",
+      team: "Team B",
+      website: "www.globalfinance.com",
+      contract: "contract_globalfinance.pdf",
+      rates: "12-18%",
+      topPlayers: "HDFC, ICICI, Axis Bank",
+      annualTurnover: "800 Cr",
+      noOfEmployees: "3500",
+      companyCulture: "Customer-first approach, integrity and transparency",
+      usp: "Global reach, personalized financial solutions",
+      newUpdates: "IPO planned for Q3 2025",
+      managementHighlights:
+        "CFO: Meera Reddy (ex-Goldman Sachs), strong financial expertise",
+    },
+    {
+      id: 2,
+      name: "Global Finance Inc",
+      industry: "Finance",
+      hrName: "Sneha Patel",
+      hrEmail: "sneha.patel@globalfinance.com",
+      hrPhone: "+91-9876543211",
+      lakshSpoc: "Rahul Gupta",
+      recruiter: "Neha Agarwal",
+      recruiters: ["Neha Agarwal", "Rohit Sharma"],
+      activePositions: 2,
+      status: "Active",
+      team: "Team B",
+      website: "www.globalfinance.com",
+      contract: "contract_globalfinance.pdf",
+      rates: "12-18%",
+      topPlayers: "HDFC, ICICI, Axis Bank",
+      annualTurnover: "800 Cr",
+      noOfEmployees: "3500",
+      companyCulture: "Customer-first approach, integrity and transparency",
+      usp: "Global reach, personalized financial solutions",
+      newUpdates: "IPO planned for Q3 2025",
+      managementHighlights:
+        "CFO: Meera Reddy (ex-Goldman Sachs), strong financial expertise",
+    },
+    {
+      id: 2,
+      name: "Global Finance Inc",
+      industry: "Finance",
+      hrName: "Sneha Patel",
+      hrEmail: "sneha.patel@globalfinance.com",
+      hrPhone: "+91-9876543211",
+      lakshSpoc: "Rahul Gupta",
+      recruiter: "Neha Agarwal",
+      recruiters: ["Neha Agarwal", "Rohit Sharma"],
+      activePositions: 2,
+      status: "Active",
+      team: "Team B",
+      website: "www.globalfinance.com",
+      contract: "contract_globalfinance.pdf",
+      rates: "12-18%",
+      topPlayers: "HDFC, ICICI, Axis Bank",
+      annualTurnover: "800 Cr",
+      noOfEmployees: "3500",
+      companyCulture: "Customer-first approach, integrity and transparency",
+      usp: "Global reach, personalized financial solutions",
+      newUpdates: "IPO planned for Q3 2025",
+      managementHighlights:
+        "CFO: Meera Reddy (ex-Goldman Sachs), strong financial expertise",
+    },
   ]);
 
   // Sample recruiters data for dropdown
@@ -270,7 +345,7 @@ const ClientManagement = () => {
                   </div>
                 </div>
 
-                <div className="overflow-y-auto" style={{ maxHeight: "180px" }}>
+                <div className="w-full">
                   <table className="w-full">
                     <thead className="bg-gray-50">
                       <tr>
@@ -1521,7 +1596,7 @@ const ClientManagement = () => {
                 </div>
 
                 {/* 👇 Yahan scroll system lagaya gaya hai */}
-                <div className="overflow-y-auto" style={{ maxHeight: "180px" }}>
+                <div className="w-full">
                   <table className="w-full">
                     <thead className="bg-gray-50 sticky top-0 z-10">
                       <tr>

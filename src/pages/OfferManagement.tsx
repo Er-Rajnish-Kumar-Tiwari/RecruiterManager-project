@@ -243,7 +243,7 @@ const OffersTab = () => {
                         </div>
                       )}
 
-                      <div className="overflow-y-auto" style={{ maxHeight: "180px" }}>
+                      <div className="w-full">
                         <table className="w-full">
                           <thead className="bg-gray-50">
                             <tr>
